@@ -31,7 +31,11 @@
                 "output": "./svg"
               }
             ],
-            "styles": ["src/global.scss", "src/theme/variables.scss"],
+            "styles": [
+              "@angular/material/prebuilt-themes/deeppurple-amber.css",
+              "src/global.scss",
+              "src/theme/variables.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -111,7 +115,11 @@
                 "output": "./svg"
               }
             ],
-            "styles": ["src/global.scss", "src/theme/variables.scss"],
+            "styles": [
+              "@angular/material/prebuilt-themes/deeppurple-amber.css",
+              "src/global.scss",
+              "src/theme/variables.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -136,7 +144,8 @@
   "cli": {
     "schematicCollections": [
       "@ionic/angular-toolkit"
-    ]
+    ],
+    "analytics": "2056a82e-b7f1-4079-bbc6-938f4c2f38d4"
   },
   "schematics": {
     "@ionic/angular-toolkit:component": {
