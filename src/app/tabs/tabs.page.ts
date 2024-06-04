@@ -1,4 +1,8 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AnimationController } from '@ionic/angular';
+import { createTabTransition } from './tab-Transition';
+
 
 @Component({
   selector: 'app-tabs',
@@ -6,7 +10,14 @@ import { Component } from '@angular/core';
   styleUrls: ['tabs.page.scss']
 })
 export class TabsPage {
+  constructor(private router: Router, private animationCtrl: AnimationController) {}
 
-  constructor() {}
-
+  async ionTabsDidChange(event: CustomEvent) {
+    const selectedTab = event.detail.tab;
+    this.router.navigate([`/tabs/${selectedTab}`], {
+      // @ts-ignore
+      animated: true,
+      animationBuilder: createTabTransition(this.animationCtrl)
+    });
+  }
 }

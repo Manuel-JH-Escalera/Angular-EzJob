@@ -7,6 +7,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AjustesPage implements OnInit {
 
+  selectedLanguage: string = 'es';
+
+  onLanguageChange() {
+    console.log('Idioma seleccionado:', this.selectedLanguage);
+  }
+
   constructor() { }
 
   ngOnInit() {

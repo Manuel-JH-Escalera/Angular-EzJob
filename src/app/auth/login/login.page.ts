@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -10,7 +11,11 @@ import { Router } from '@angular/router';
 export class LoginPage implements OnInit {
   loginForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private router: Router) { }
+  constructor(
+    private formBuilder: FormBuilder, 
+    private router: Router, 
+    private loadingController: LoadingController
+  ) { }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
@@ -19,12 +24,22 @@ export class LoginPage implements OnInit {
     });
   }
 
-  onSubmit() {
+  async onSubmit() {
     if (this.loginForm.valid) {
-      console.log(this.loginForm.value);
+      const loading = await this.loadingController.create({
+        message: 'Iniciando sesión...',
+        duration: 4000
+      });
+
+      await loading.present();
+
       const fakeToken = 'f4k3-t0k3n-s1mul4t3d';
       localStorage.setItem('userToken', fakeToken);
-      this.router.navigate(['/']);
+
+      setTimeout(() => {
+        loading.dismiss();
+        this.router.navigate(['/']);
+      }, 4000);
     }
   }
 }

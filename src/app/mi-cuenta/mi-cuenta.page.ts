@@ -12,4 +12,10 @@ export class MiCuentaPage implements OnInit {
   ngOnInit() {
   }
 
+  changePassword() {
+  }
+
+  logout() {
+  }
+
 }

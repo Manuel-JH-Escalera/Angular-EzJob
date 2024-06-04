@@ -5,9 +5,29 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Favoritos</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Tus trabajos guardados como favoritos</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let job of jobs; let i = index">
+            <div class="flex flex-col w-50 p-2">
+              <h2>{{ job.title }}</h2>
+              <p>{{ job.portal }}</p>
+              <div>
+                <ion-button fill="outline" color="primary" (click)="saveJob(job)">
+                  Quitar
+                  <ion-icon name="star-outline" slot="start"></ion-icon>
+                </ion-button>
+                <ion-button fill="outline" color="secondary" (click)="visitWebsite(job)">
+                  Visitar Web
+                  <ion-icon name="open" slot="start"></ion-icon>
+                </ion-button>
+              </div>
+            </div>
+          </ion-item>          
+        </ion-list>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

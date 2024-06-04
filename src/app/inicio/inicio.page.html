@@ -1,3 +1,4 @@
+<!-- src/app/home/home.page.html -->
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>Inicio</ion-title>
@@ -10,4 +11,57 @@
       <ion-title size="large">Inicio</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <!-- Mensaje de bienvenida -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Bienvenido, Busca tu nuevo empleo</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <!-- Campo de búsqueda -->
+      <ion-item>
+        <ion-input placeholder="Buscar empleo..."></ion-input>
+        <ion-button slot="end" color="primary">Buscar</ion-button>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Listado de categorías -->
+  <ion-card>
+    <ion-list>
+      <ion-list-header>
+        <ion-label>Categorías</ion-label>
+      </ion-list-header>
+      <ion-item>Software y TI</ion-item>
+      <ion-item>Marketing y Ventas</ion-item>
+      <ion-item>Contabilidad</ion-item>
+      <ion-item>Recursos Humanos</ion-item>
+    </ion-list>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Últimos trabajos publicados</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let job of jobs; let i = index">
+            <div class="flex flex-col w-50 p-2">
+              <h2>{{ job.title }}</h2>
+              <p>{{ job.portal }}</p>
+              <div>
+                <ion-button fill="outline" color="primary" (click)="saveJob(job)">
+                  {{ (i === 0 || i === 1) ? 'Quitar' : 'Guardar' }}
+                  <ion-icon name="star-outline" slot="start"></ion-icon>
+                </ion-button>
+                <ion-button fill="outline" color="secondary" (click)="visitWebsite(job)">
+                  Visitar Web
+                  <ion-icon name="open" slot="start"></ion-icon>
+                </ion-button>
+              </div>
+            </div>
+          </ion-item>          
+        </ion-list>
+    </ion-card-content>
+  </ion-card>
 </ion-content>
