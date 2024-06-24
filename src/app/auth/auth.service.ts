@@ -7,7 +7,7 @@ export class AuthService {
   constructor() {}
 
   isAuthenticated(): boolean {
-    const token = localStorage.getItem('userToken');
+    const token = localStorage.getItem('userObject');
     return !!token;
   }
 }

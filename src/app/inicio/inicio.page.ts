@@ -1,8 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { TrabajoService } from '../trabajo.service';
 
 interface Job {
   title: string;
   portal: string;
+  date: string;
+}
+
+interface Trabajo {
+  title: string;
+  link: string;
+  company: string;
+  location: string;
   date: string;
 }
 
@@ -12,6 +21,8 @@ interface Job {
   styleUrls: ['./inicio.page.scss'],
 })
 export class InicioPage implements OnInit {
+
+  trabajos!: Trabajo[];
 
   jobs: Job[] = [
     {
@@ -36,9 +47,17 @@ export class InicioPage implements OnInit {
   }
 
 
-  constructor() { }
+  constructor(private trabajoService: TrabajoService) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.trabajoService.getTrabajos().subscribe(
+      (data: Trabajo[]) => {
+        this.trabajos = data;
+      },
+      (error) => {
+        console.error('Error al obtener los trabajos', error);
+      }
+    );
   }
 
 }

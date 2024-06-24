@@ -28,13 +28,20 @@ export class LoginPage implements OnInit {
     if (this.loginForm.valid) {
       const loading = await this.loadingController.create({
         message: 'Iniciando sesión...',
-        duration: 4000
+        duration: 3000
       });
 
       await loading.present();
 
-      const fakeToken = 'f4k3-t0k3n-s1mul4t3d';
-      localStorage.setItem('userToken', fakeToken);
+      const email = this.loginForm.get('email')?.value;
+      const username = email.split('@')[0];
+
+      const userObject = {
+        email: email,
+        username: username
+      };
+
+      localStorage.setItem('userObject', JSON.stringify(userObject));
 
       setTimeout(() => {
         loading.dismiss();

@@ -62,6 +62,10 @@
             </div>
           </ion-item>          
         </ion-list>
+        <li *ngFor="let trabajo of trabajos">
+          {{ trabajo.title }} - {{ trabajo.company }} - {{ trabajo.location }} - {{ trabajo.date }}
+          <a [href]="trabajo.link" target="_blank">Ver más</a>
+        </li>
     </ion-card-content>
   </ion-card>
 </ion-content>
