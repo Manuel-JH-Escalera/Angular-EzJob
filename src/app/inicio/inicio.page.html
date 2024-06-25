@@ -41,31 +41,30 @@
 
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Últimos trabajos publicados</ion-card-title>
+      <ion-card-title>Último trabajo publicado</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-        <ion-list>
-          <ion-item *ngFor="let job of jobs; let i = index">
-            <div class="flex flex-col w-50 p-2">
-              <h2>{{ job.title }}</h2>
-              <p>{{ job.portal }}</p>
-              <div>
-                <ion-button fill="outline" color="primary" (click)="saveJob(job)">
-                  {{ (i === 0 || i === 1) ? 'Quitar' : 'Guardar' }}
-                  <ion-icon name="star-outline" slot="start"></ion-icon>
-                </ion-button>
-                <ion-button fill="outline" color="secondary" (click)="visitWebsite(job)">
-                  Visitar Web
-                  <ion-icon name="open" slot="start"></ion-icon>
-                </ion-button>
-              </div>
+      <ion-button (click)="updateTrabajos()" [disabled]="loading">Actualizar</ion-button>
+      <ion-list *ngIf="!loading">
+        <ion-item *ngIf="trabajosCombinados && trabajosCombinados.length > 0">
+          <div class="flex flex-col w-50 p-2">
+            <h2>{{ trabajosCombinados[0].title }}</h2>
+            <p>{{ trabajosCombinados[0].company }}</p>
+            <div>
+              <ion-button fill="outline" color="primary" (click)="saveJob(trabajosCombinados[0])">
+                Guardar
+                <ion-icon name="star-outline" slot="start"></ion-icon>
+              </ion-button>
+              <ion-button fill="outline" color="secondary" (click)="visitWebsite(trabajosCombinados[0])">
+                Visitar Web
+                <ion-icon name="open" slot="start"></ion-icon>
+              </ion-button>
             </div>
-          </ion-item>          
-        </ion-list>
-        <li *ngFor="let trabajo of trabajos">
-          {{ trabajo.title }} - {{ trabajo.company }} - {{ trabajo.location }} - {{ trabajo.date }}
-          <a [href]="trabajo.link" target="_blank">Ver más</a>
-        </li>
+          </div>
+        </ion-item>          
+      </ion-list>
+      
+      <ion-spinner *ngIf="loading"></ion-spinner>
     </ion-card-content>
   </ion-card>
 </ion-content>

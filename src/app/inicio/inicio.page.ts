@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TrabajoService } from '../trabajo.service';
+import { LoadingController } from '@ionic/angular';
+import { forkJoin } from 'rxjs';
 
 interface Job {
   title: string;
@@ -23,41 +25,51 @@ interface Trabajo {
 export class InicioPage implements OnInit {
 
   trabajos!: Trabajo[];
+  trabajosCombinados!: Trabajo[];
+  loading: boolean = true;
 
-  jobs: Job[] = [
-    {
-      title: 'Desarrollador Frontend',
-      portal: 'example.com',
-      date: '01/06/2024'
-    },
-    {
-      title: 'Analista de Datos',
-      portal: 'jobsite.com',
-      date: '01/06/2024'
-    }
-  ];
-
-  saveJob(job: Job) {
-
+  saveJob(trabajo: Trabajo) {
+    // Implementar lógica para guardar el trabajo
   }
 
-  visitWebsite(job: Job) {
-    window.open(job.portal, '_blank');
-
+  visitWebsite(trabajo: Trabajo) {
+    window.open(trabajo.link, '_blank');
   }
 
-
-  constructor(private trabajoService: TrabajoService) {}
+  constructor(private trabajoService: TrabajoService, private loadingController: LoadingController) {}
 
   ngOnInit(): void {
-    this.trabajoService.getTrabajos().subscribe(
+    this.fetchCombinedTrabajos();
+  }
+
+  fetchCombinedTrabajos() {
+    this.loading = true;
+    this.trabajoService.getCombinedTrabajos().subscribe(
       (data: Trabajo[]) => {
-        this.trabajos = data;
+        this.trabajosCombinados = data;
+        this.loading = false;
       },
-      (error) => {
-        console.error('Error al obtener los trabajos', error);
+      (error: any) => {
+        console.error('Error al obtener los trabajos combinados', error);
+        this.loading = false;
       }
     );
   }
 
+  updateTrabajos() {
+    this.loading = true;
+    forkJoin([
+      this.trabajoService.updateTrabajosChiletrabajos(),
+      this.trabajoService.updateTrabajosTrabajando()
+    ]).subscribe(
+      ([dataChiletrabajos, dataTrabajando]: [Trabajo[], Trabajo[]]) => {
+        this.trabajosCombinados = [...dataChiletrabajos, ...dataTrabajando];
+        this.loading = false;
+      },
+      (error: any) => {
+        console.error('Error al actualizar los trabajos', error);
+        this.loading = false;
+      }
+    );
+  }
 }
