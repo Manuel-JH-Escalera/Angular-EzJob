@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { tap, catchError, map, concatMap } from 'rxjs/operators';
+import { Observable, of, forkJoin } from 'rxjs';
+import { tap, catchError, map } from 'rxjs/operators';
 
 interface Trabajo {
   title: string;
@@ -20,8 +20,11 @@ export class TrabajoService {
   private apiUrlTrabajando = 'https://scraper-portales-trabajo.onrender.com/scrape/trabajando';
   private trabajosChiletrabajosCache: Trabajo[] | null = null;
   private trabajosTrabajandoCache: Trabajo[] | null = null;
+  private savedTrabajos: Trabajo[] = [];
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    this.loadSavedJobs();
+  }
 
   getTrabajosChiletrabajos(): Observable<Trabajo[]> {
     if (this.trabajosChiletrabajosCache) {
@@ -72,12 +75,8 @@ export class TrabajoService {
   }
 
   getCombinedTrabajos(): Observable<Trabajo[]> {
-    return this.getTrabajosChiletrabajos().pipe(
-      concatMap(trabajosChiletrabajos => 
-        this.getTrabajosTrabajando().pipe(
-          map(trabajosTrabajando => [...trabajosChiletrabajos, ...trabajosTrabajando])
-        )
-      ),
+    return forkJoin([this.getTrabajosChiletrabajos(), this.getTrabajosTrabajando()]).pipe(
+      map(([trabajosChiletrabajos, trabajosTrabajando]) => [...trabajosChiletrabajos, ...trabajosTrabajando]),
       catchError(error => {
         console.error('Error al combinar los trabajos', error);
         return of([]);
@@ -85,8 +84,25 @@ export class TrabajoService {
     );
   }
 
-  clearCache() {
-    this.trabajosChiletrabajosCache = null;
-    this.trabajosTrabajandoCache = null;
+  loadSavedJobs() {
+    const saved = localStorage.getItem('savedTrabajos');
+    this.savedTrabajos = saved ? JSON.parse(saved) : [];
+  }
+
+  saveJob(job: Trabajo) {
+    if (this.isJobSaved(job)) {
+      this.savedTrabajos = this.savedTrabajos.filter(savedJob => savedJob.title !== job.title);
+    } else {
+      this.savedTrabajos.push(job);
+    }
+    localStorage.setItem('savedTrabajos', JSON.stringify(this.savedTrabajos));
+  }
+
+  isJobSaved(job: Trabajo): boolean {
+    return this.savedTrabajos.some(savedJob => savedJob.title === job.title);
+  }
+
+  getSavedJobs(): Trabajo[] {
+    return this.savedTrabajos;
   }
 }

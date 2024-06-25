@@ -47,9 +47,9 @@
             <p>{{ job.location }}</p>
             <p>{{ job.date }}</p>
             <div>
-              <ion-button fill="outline" color="primary" (click)="saveJob(job)">
-                Guardar
-                <ion-icon name="star-outline" slot="start"></ion-icon>
+              <ion-button fill="outline" [color]="isJobSaved(job) ? 'danger' : 'primary'" (click)="saveJob(job)">
+                {{ isJobSaved(job) ? 'Quitar' : 'Guardar' }}
+                <ion-icon [name]="isJobSaved(job) ? 'trash-outline' : 'star-outline'" slot="start"></ion-icon>
               </ion-button>
               <ion-button fill="outline" color="secondary" (click)="visitWebsite(job)">
                 Visitar Web

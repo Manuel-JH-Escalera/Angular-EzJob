@@ -56,7 +56,11 @@ export class EmpleosPage implements OnInit {
   }
 
   saveJob(job: Trabajo) {
-    // Implementar lógica para guardar el trabajo
+    this.trabajoService.saveJob(job);
+  }
+
+  isJobSaved(job: Trabajo): boolean {
+    return this.trabajoService.isJobSaved(job);
   }
 
   visitWebsite(job: Trabajo) {
@@ -74,5 +78,4 @@ export class EmpleosPage implements OnInit {
   applyJob(job: Trabajo) {
     // Implementar lógica para aplicar a un trabajo
   }
-
 }

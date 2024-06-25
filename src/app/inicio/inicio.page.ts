@@ -70,7 +70,11 @@ export class InicioPage implements OnInit {
   }
 
   saveJob(trabajo: Trabajo) {
-    // Implementar lógica para guardar el trabajo
+    this.trabajoService.saveJob(trabajo);
+  }
+
+  isJobSaved(trabajo: Trabajo): boolean {
+    return this.trabajoService.isJobSaved(trabajo);
   }
 
   visitWebsite(trabajo: Trabajo) {

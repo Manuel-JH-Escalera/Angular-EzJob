@@ -51,9 +51,9 @@
             <h2>{{ trabajosCombinados[0].title }}</h2>
             <p>{{ trabajosCombinados[0].company }}</p>
             <div>
-              <ion-button fill="outline" color="primary" (click)="saveJob(trabajosCombinados[0])">
-                Guardar
-                <ion-icon name="star-outline" slot="start"></ion-icon>
+              <ion-button fill="outline" [color]="isJobSaved(trabajosCombinados[0]) ? 'danger' : 'primary'" (click)="saveJob(trabajosCombinados[0])">
+                {{ isJobSaved(trabajosCombinados[0]) ? 'Quitar' : 'Guardar' }}
+                <ion-icon [name]="isJobSaved(trabajosCombinados[0]) ? 'trash-outline' : 'star-outline'" slot="start"></ion-icon>
               </ion-button>
               <ion-button fill="outline" color="secondary" (click)="visitWebsite(trabajosCombinados[0])">
                 Visitar Web
