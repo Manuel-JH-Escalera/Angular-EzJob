@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AnimationController } from '@ionic/angular';
-import { createTabTransition } from './tab-Transition';
+import { createTabTransition } from './tab-transition';
 
 
 @Component({

@@ -1,13 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { TrabajoService } from '../trabajo.service';
 import { LoadingController } from '@ionic/angular';
 import { forkJoin } from 'rxjs';
-
-interface Job {
-  title: string;
-  portal: string;
-  date: string;
-}
 
 interface Trabajo {
   title: string;
@@ -27,16 +22,13 @@ export class InicioPage implements OnInit {
   trabajos!: Trabajo[];
   trabajosCombinados!: Trabajo[];
   loading: boolean = true;
+  searchTitle: string = '';
 
-  saveJob(trabajo: Trabajo) {
-    // Implementar lógica para guardar el trabajo
-  }
-
-  visitWebsite(trabajo: Trabajo) {
-    window.open(trabajo.link, '_blank');
-  }
-
-  constructor(private trabajoService: TrabajoService, private loadingController: LoadingController) {}
+  constructor(
+    private trabajoService: TrabajoService,
+    private loadingController: LoadingController,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.fetchCombinedTrabajos();
@@ -71,5 +63,17 @@ export class InicioPage implements OnInit {
         this.loading = false;
       }
     );
+  }
+
+  searchJobs() {
+    this.router.navigate(['/tabs/empleos'], { queryParams: { title: this.searchTitle } });
+  }
+
+  saveJob(trabajo: Trabajo) {
+    // Implementar lógica para guardar el trabajo
+  }
+
+  visitWebsite(trabajo: Trabajo) {
+    window.open(trabajo.link, '_blank');
   }
 }

@@ -1,0 +1,15 @@
+p {
+    padding: 0px;
+}
+
+.actualizar-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    width: 100%;
+}

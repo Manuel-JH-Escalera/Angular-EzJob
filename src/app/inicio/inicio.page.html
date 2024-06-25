@@ -1,4 +1,3 @@
-<!-- src/app/home/home.page.html -->
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>Inicio</ion-title>
@@ -12,31 +11,24 @@
     </ion-toolbar>
   </ion-header>
 
-  <!-- Mensaje de bienvenida -->
+  <!-- Listado de categorías -->
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Bienvenido, Busca tu nuevo empleo</ion-card-title>
+      <ion-card-title>Bienvenido, busca tu nuevo empleo</ion-card-title>
     </ion-card-header>
+    <ion-card-content>
+      <p>ezJob es una plataforma que reúne ofertas de trabajo de diversas páginas web. Actualmente, ofrecemos soporte para Chiletrabajos y Trabajando.com, y en el futuro planeamos expandirnos aún más para incluir más portales de empleo.</p>
+    </ion-card-content>
+  </ion-card>  
+
+  <ion-card>
     <ion-card-content>
       <!-- Campo de búsqueda -->
       <ion-item>
-        <ion-input placeholder="Buscar empleo..."></ion-input>
-        <ion-button slot="end" color="primary">Buscar</ion-button>
+        <ion-input [(ngModel)]="searchTitle" placeholder="Buscar empleo..."></ion-input>
+        <ion-button slot="end" color="primary" (click)="searchJobs()">Buscar</ion-button>
       </ion-item>
     </ion-card-content>
-  </ion-card>
-
-  <!-- Listado de categorías -->
-  <ion-card>
-    <ion-list>
-      <ion-list-header>
-        <ion-label>Categorías</ion-label>
-      </ion-list-header>
-      <ion-item>Software y TI</ion-item>
-      <ion-item>Marketing y Ventas</ion-item>
-      <ion-item>Contabilidad</ion-item>
-      <ion-item>Recursos Humanos</ion-item>
-    </ion-list>
   </ion-card>
 
   <ion-card>
@@ -44,7 +36,15 @@
       <ion-card-title>Último trabajo publicado</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      <ion-button (click)="updateTrabajos()" [disabled]="loading">Actualizar</ion-button>
+      <div class="actualizar-container">
+        <ion-button (click)="updateTrabajos()" [disabled]="loading">Actualizar</ion-button>
+        <div class="spinner-container" *ngIf="loading">
+          <ion-spinner></ion-spinner>
+        </div>
+      </div>
+      <div *ngIf="!loading && trabajosCombinados.length === 0">
+        No se encontraron resultados con los parámetros de búsqueda
+      </div>
       <ion-list *ngIf="!loading">
         <ion-item *ngIf="trabajosCombinados && trabajosCombinados.length > 0">
           <div class="flex flex-col w-50 p-2">
@@ -63,8 +63,6 @@
           </div>
         </ion-item>          
       </ion-list>
-      
-      <ion-spinner *ngIf="loading"></ion-spinner>
     </ion-card-content>
   </ion-card>
 </ion-content>

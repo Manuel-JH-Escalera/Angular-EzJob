@@ -11,7 +11,7 @@
     </ion-toolbar>
   </ion-header>
 
-  <!-- Buscador y filtros -->
+  <!-- Buscador -->
   <ion-card>
     <ion-card-header>
       <ion-card-title>Buscar empleos</ion-card-title>
@@ -19,51 +19,46 @@
     <ion-card-content>
       <ion-item>
         <ion-label position="stacked">Empleo</ion-label>
-        <ion-input placeholder="Buscar empleo..."></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label position="stacked">Categoría</ion-label>
-        <ion-select placeholder="Selecciona una categoría">
-          <ion-select-option value="ti">TI y Software</ion-select-option>
-          <ion-select-option value="marketing">Marketing</ion-select-option>
-          <ion-select-option value="diseño">Diseño Gráfico</ion-select-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-label position="stacked">Fecha de Publicación</ion-label>
-        <ion-select placeholder="Selecciona una categoría">
-          <ion-select-option value="ti">Hoy</ion-select-option>
-          <ion-select-option value="marketing">Hace 3 días</ion-select-option>
-          <ion-select-option value="diseño">Hace 6 días</ion-select-option>
-        </ion-select>
+        <ion-input [(ngModel)]="searchTitle" placeholder="Buscar empleo..."></ion-input>
       </ion-item>
       <ion-button expand="full" color="primary" (click)="searchJobs()">Buscar</ion-button>
     </ion-card-content>
   </ion-card>
+
+  <!-- Lista de trabajos -->
   <ion-card>
     <ion-card-header>
       <ion-card-title>Lista de Trabajos</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-        <ion-list>
-          <ion-item *ngFor="let job of jobs; let i = index">
-            <div class="flex flex-col w-50 p-2">
-              <h2>{{ job.title }}</h2>
-              <p>{{ job.portal }}</p>
-              <div>
-                <ion-button fill="outline" color="primary" (click)="saveJob(job)">
-                  {{ (i === 0 || i === 1) ? 'Quitar' : 'Guardar' }}
-                  <ion-icon name="star-outline" slot="start"></ion-icon>
-                </ion-button>
-                <ion-button fill="outline" color="secondary" (click)="visitWebsite(job)">
-                  Visitar Web
-                  <ion-icon name="open" slot="start"></ion-icon>
-                </ion-button>
-              </div>
+      <div class="spinner-container" *ngIf="loading">
+        <ion-spinner></ion-spinner>
+      </div>
+      
+      <div *ngIf="!loading && filteredTrabajos.length === 0">
+        No se encontraron resultados con los parámetros de búsqueda
+      </div>
+
+      <ion-list *ngIf="!loading && filteredTrabajos.length > 0">
+        <ion-item *ngFor="let job of filteredTrabajos; let i = index">
+          <div class="flex flex-col w-50 p-2">
+            <h2>{{ job.title }}</h2>
+            <p>{{ job.company }}</p>
+            <p>{{ job.location }}</p>
+            <p>{{ job.date }}</p>
+            <div>
+              <ion-button fill="outline" color="primary" (click)="saveJob(job)">
+                Guardar
+                <ion-icon name="star-outline" slot="start"></ion-icon>
+              </ion-button>
+              <ion-button fill="outline" color="secondary" (click)="visitWebsite(job)">
+                Visitar Web
+                <ion-icon name="open" slot="start"></ion-icon>
+              </ion-button>
             </div>
-          </ion-item>          
-        </ion-list>
+          </div>
+        </ion-item>          
+      </ion-list>
     </ion-card-content>
   </ion-card>
-
 </ion-content>
