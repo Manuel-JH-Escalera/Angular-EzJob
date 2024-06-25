@@ -10,15 +10,18 @@
       <ion-card-title>Tus trabajos guardados como favoritos</ion-card-title>
     </ion-card-header>
     <ion-card-content>
+      <div *ngIf="savedTrabajos.length === 0">
+        No tienes trabajos guardados.
+      </div>
         <ion-list>
-          <ion-item *ngFor="let job of jobs; let i = index">
+          <ion-item *ngFor="let job of savedTrabajos; let i = index">
             <div class="flex flex-col w-50 p-2">
               <h2>{{ job.title }}</h2>
-              <p>{{ job.portal }}</p>
+              <p>{{ job.company }}</p>
               <div>
-                <ion-button fill="outline" color="primary" (click)="saveJob(job)">
+                <ion-button fill="outline" color="danger" (click)="removeJob(job)">
                   Quitar
-                  <ion-icon name="star-outline" slot="start"></ion-icon>
+                  <ion-icon name="trash-outline" slot="start"></ion-icon>
                 </ion-button>
                 <ion-button fill="outline" color="secondary" (click)="visitWebsite(job)">
                   Visitar Web

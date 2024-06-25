@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
+import { TrabajoService } from '../trabajo.service';
 
-interface Job {
+interface Trabajo {
   title: string;
-  portal: string;
+  link: string;
+  company: string;
+  location: string;
   date: string;
 }
-
 
 @Component({
   selector: 'app-favoritos',
@@ -14,31 +16,25 @@ interface Job {
 })
 export class FavoritosPage implements OnInit {
 
-  jobs: Job[] = [
-    {
-      title: 'Desarrollador Frontend',
-      portal: 'example.com',
-      date: '01/06/2024'
-    },
-    {
-      title: 'Analista de Datos',
-      portal: 'jobsite.com',
-      date: '01/06/2024'
-    }
-  ];
+  savedTrabajos: Trabajo[] = [];
 
-  saveJob(job: Job) {
-
-  }
-
-  visitWebsite(job: Job) {
-    window.open(job.portal, '_blank');
-
-  }
-
-  constructor() { }
+  constructor(private trabajoService: TrabajoService) { }
 
   ngOnInit() {
+    this.loadSavedJobs();
+  }
+
+  loadSavedJobs() {
+    this.savedTrabajos = this.trabajoService.getSavedJobs();
+  }
+
+  removeJob(job: Trabajo) {
+    this.trabajoService.saveJob(job);
+    this.loadSavedJobs(); // Refresh the list after removal
+  }
+
+  visitWebsite(job: Trabajo) {
+    window.open(job.link, '_blank');
   }
 
 }
