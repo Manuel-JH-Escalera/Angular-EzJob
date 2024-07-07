@@ -12,15 +12,15 @@ export class LoginPage implements OnInit {
   loginForm!: FormGroup;
 
   constructor(
-    private formBuilder: FormBuilder, 
-    private router: Router, 
+    private formBuilder: FormBuilder,
+    private router: Router,
     private loadingController: LoadingController
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required]]
+      password: ['', [Validators.required]],
     });
   }
 
@@ -28,7 +28,6 @@ export class LoginPage implements OnInit {
     if (this.loginForm.valid) {
       const loading = await this.loadingController.create({
         message: 'Iniciando sesión...',
-        duration: 3000
       });
 
       await loading.present();
@@ -38,7 +37,7 @@ export class LoginPage implements OnInit {
 
       const userObject = {
         email: email,
-        username: username
+        username: username,
       };
 
       localStorage.setItem('userObject', JSON.stringify(userObject));
