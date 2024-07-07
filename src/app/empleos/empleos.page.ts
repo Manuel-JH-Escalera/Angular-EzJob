@@ -16,7 +16,6 @@ interface Trabajo {
   styleUrls: ['./empleos.page.scss'],
 })
 export class EmpleosPage implements OnInit {
-
   trabajos: Trabajo[] = [];
   filteredTrabajos: Trabajo[] = [];
   loading: boolean = true;
@@ -25,10 +24,10 @@ export class EmpleosPage implements OnInit {
   constructor(
     private trabajoService: TrabajoService,
     private route: ActivatedRoute
-  ) { }
+  ) {}
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       this.searchTitle = params['title'] || '';
       this.fetchTrabajos();
     });
@@ -50,7 +49,7 @@ export class EmpleosPage implements OnInit {
   }
 
   applyFilter() {
-    this.filteredTrabajos = this.trabajos.filter(job => {
+    this.filteredTrabajos = this.trabajos.filter((job) => {
       return job.title.toLowerCase().includes(this.searchTitle.toLowerCase());
     });
   }
@@ -71,11 +70,7 @@ export class EmpleosPage implements OnInit {
     this.applyFilter();
   }
 
-  sortJobsByDate() {
-    // Implementar lógica para ordenar trabajos por fecha
-  }
+  sortJobsByDate() {}
 
-  applyJob(job: Trabajo) {
-    // Implementar lógica para aplicar a un trabajo
-  }
+  applyJob(job: Trabajo) {}
 }

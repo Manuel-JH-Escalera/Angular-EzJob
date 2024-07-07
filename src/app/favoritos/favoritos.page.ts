@@ -15,10 +15,9 @@ interface Trabajo {
   styleUrls: ['./favoritos.page.scss'],
 })
 export class FavoritosPage implements OnInit {
-
   savedTrabajos: Trabajo[] = [];
 
-  constructor(private trabajoService: TrabajoService) { }
+  constructor(private trabajoService: TrabajoService) {}
 
   ngOnInit() {
     this.loadSavedJobs();
@@ -30,11 +29,10 @@ export class FavoritosPage implements OnInit {
 
   removeJob(job: Trabajo) {
     this.trabajoService.saveJob(job);
-    this.loadSavedJobs(); // Refresh the list after removal
+    this.loadSavedJobs();
   }
 
   visitWebsite(job: Trabajo) {
     window.open(job.link, '_blank');
   }
-
 }
